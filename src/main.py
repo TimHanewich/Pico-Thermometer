@@ -5,16 +5,24 @@ import dht
 import framebuf
 import ssd1306
 
-# SETTINGS - sample rate
+
+
+########## SETTINGS ##########
+
+# sample rate
 sample_rate_seconds:int = 3
 
-# SETTINGS - data pin for the DHT-22 sensor
+# data pin for the DHT-22 sensor
 gpio_dht22 = 6
 
-# SETTINGS - I2C pins for the SSD-1306 OLED display
+# I2C pins for the SSD-1306 OLED display
 i2c_peripheral = 1 # depending on what pins you use for I2C, will be 0 or 1
 i2c_sda = 14
 i2c_scl = 15
+
+##############################
+
+
 
 # create I2C interface
 print("Creating I2C interface...")
