@@ -97,7 +97,7 @@ def loop():
         print("Reading temperature from DHT-22...")
         dht22_attempts:int = 0
         temperature_f:int = None
-        while temperature_f == None and dht22_attempts < 10:
+        while temperature_f == None:
             try:
                 print("Measuring from DHT-22 on attempt # " + str(dht22_attempts + 1) + "...")
                 dht22.measure()
