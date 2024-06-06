@@ -133,7 +133,7 @@ def display_reading(temp:float) -> None:
     oled.show()
 
 ## function for bottom loading bar
-def loading_bar(percent:float, height:int = 3) -> None:
+def loading_bar(percent:float, height:int = 6) -> None:
     oled.rect(0, 64-height, 128, height, 0, True) # clear any old progress bar that was previously there
     rwidth:int = int(round(128 * percent, 0)) # calculate rectangle width
     oled.rect(0, 64-height, rwidth, height, 1, True) # display as filled in rectangle at bottom
