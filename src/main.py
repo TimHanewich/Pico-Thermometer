@@ -75,7 +75,6 @@ def display_reading(temp:int) -> None:
             to_display.append(buf9)
 
     # display
-    oled.fill(0)
     on_x = int(round((128 - (len(to_display) * 32)) / 2, 0))
     for fb in to_display:
         oled.blit(fb, on_x, 16)
@@ -109,6 +108,8 @@ def loop():
             dht22_attempts = dht22_attempts + 1
             time.sleep(0.25)
 
+        # before displaying anything, clear all
+        oled.fill(0)
 
         # display temp
         print("Displaying temperature reading of '" + str(temperature_f) + "'...")
