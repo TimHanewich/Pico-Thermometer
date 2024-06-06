@@ -53,9 +53,10 @@ buf9 = load("graphics/9")
 # function we can call on to display
 def display_reading(temp:str) -> None:
 
-    # settings - period width and height (radius)
-    period_radius_x:int = 3
-    period_radius_y:int = 3
+    # configurable settings
+    period_radius_x:int = 3 # period X radius (width radius)
+    period_radius_y:int = 3 # period Y radius (height radius)
+    char_buffer:int = 0
 
     # calculate total width
     width:int = 0
@@ -70,12 +71,13 @@ def display_reading(temp:str) -> None:
             raise Exception("Unable to display reading with character '" + c + "'")
         
         # add buffer
-        width = width + 0 # 0 buffer for now
+        width = width + char_buffer
 
     # now that we have the width of the entire structure, position begin x accordingly
     on_x:int = int(round((128 - width) / 2, 0))
 
-    # display each
+    # display each, taking note of the location of a period
+    period_location:tuple[int, int] = None
     for c in temp:
         if c == "0":
             oled.blit(buf0, on_x, 16)
@@ -108,8 +110,16 @@ def display_reading(temp:str) -> None:
             oled.blit(buf9, on_x, 16)
             on_x = on_x + 32
         elif c == ".":
-            oled.ellipse(on_x + period_radius_x, 16 + 32 - period_radius_y - period_radius_y, period_radius_x, period_radius_y, 1, True)
-            on_x = on_x + 6
+            period_location = (on_x + period_radius_x, 16 + 32 - period_radius_y - period_radius_y)
+            on_x = on_x + period_radius_x + period_radius_x
+
+        # opportunity here to add in buffer width between characters
+        on_x = on_x + char_buffer
+
+    # add the period if there is one
+    # the reason we have to add the period AFTER every other number is added is because if a number graphic has a pixel turned off at the very edge, it will "overwrite" part of the period, truncating a portion of it.
+    if period_location != None:
+        oled.ellipse(period_location[0], period_location[1], period_radius_x, period_radius_y, 1, True)
 
     # show!
     oled.show()
