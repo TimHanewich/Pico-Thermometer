@@ -6,7 +6,7 @@ import framebuf
 import ssd1306
 
 # SETTINGS - sample rate
-sample_rate_seconds:int = 60
+sample_rate_seconds:int = 3
 
 # SETTINGS - data pin for the DHT-22 sensor
 gpio_dht22 = 6
