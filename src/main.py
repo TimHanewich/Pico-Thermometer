@@ -1,8 +1,9 @@
 import machine
-import bitgraphics
 import sys
 import time
 import dht
+import framebuf
+import ssd1306
 
 # SETTINGS - data pin for the DHT-22 sensor
 gpio_dht22 = 6
@@ -24,25 +25,60 @@ else:
 # set up DHT-22 sensor
 print("Setting up DHT22 sensor...")
 dht22 = dht.DHT22(machine.Pin(gpio_dht22, machine.Pin.IN))
-    
-# create display
-print("Setting up BitGraphicDisplay...")
-bgd = bitgraphics.BitGraphicDisplay(i2c, 128, 64) # create BitGraphicDisplay with width 128, height 64
 
-# create typewriter and load in 32x32 graphics
-print("Setting up Typewriter...")
-tr = bitgraphics.Typewriter()
-tr.add_character("0", bitgraphics.BitGraphic(path="graphics/0.json"))
-tr.add_character("1", bitgraphics.BitGraphic(path="graphics/1.json"))
-tr.add_character("2", bitgraphics.BitGraphic(path="graphics/2.json"))
-tr.add_character("3", bitgraphics.BitGraphic(path="graphics/3.json"))
-tr.add_character("4", bitgraphics.BitGraphic(path="graphics/4.json"))
-tr.add_character("5", bitgraphics.BitGraphic(path="graphics/5.json"))
-tr.add_character("6", bitgraphics.BitGraphic(path="graphics/6.json"))
-tr.add_character("7", bitgraphics.BitGraphic(path="graphics/7.json"))
-tr.add_character("8", bitgraphics.BitGraphic(path="graphics/8.json"))
-tr.add_character("9", bitgraphics.BitGraphic(path="graphics/9.json"))
-tr.add_character("d", bitgraphics.BitGraphic(path="graphics/degree_fahrenheit.json"))
+# set up SSD-1306 OLED display
+oled = ssd1306.SSD1306_I2C(128, 64, i2c)
+
+# load number bufs (32x32) into memory
+def load(path:str) -> bytes:
+    f = open(path, "rb")
+    data = f.read()
+    f.close()
+    return data
+buf0 = load("graphics/0")
+buf1 = load("graphics/1")
+buf2 = load("graphics/2")
+buf3 = load("graphics/3")
+buf4 = load("graphics/4")
+buf5 = load("graphics/5")
+buf6 = load("graphics/6")
+buf7 = load("graphics/7")
+buf8 = load("graphics/8")
+buf9 = load("graphics/9")
+
+# function we can call on to display
+def display_reading(temp:int) -> None:
+
+    # load in the bufs
+    to_display:list[framebuf.FrameBuffer] = []
+    for c in str(temp):
+        if c == "0":
+            to_display.append(0)
+        elif c == "1":
+            to_display.append(1)
+        elif c == "2":
+            to_display.append(2)
+        elif c == "3":
+            to_display.append(3)
+        elif c == "4":
+            to_display.append(4)
+        elif c == "5":
+            to_display.append(5)
+        elif c == "6":
+            to_display.append(6)
+        elif c == "7":
+            to_display.append(7)
+        elif c == "8":
+            to_display.append(8)
+        elif c == "9":
+            to_display.append(9)
+
+    # display
+    on_x = 0
+    for fb in to_display:
+        oled.blit(fb, on_x, 0)
+        on_x = on_x + 32
+
 
 # loop
 print("Beginning thermometer loop!")
@@ -64,11 +100,8 @@ while True:
         time.sleep(0.25)
 
     # show it on the display
-    print("Displaying temperature of " + str(temperature_f) + "...")
-    bg = tr.write(str(temperature_f) + "d", 32, 32)
-    bgd.clear()
-    bgd.display(bg, center=(0.5, 0.5))
-    bgd.show()
+    print("Displaying temperature reading of '" + str(temperature_f) + "'...")
+    display_reading(temperature_f)
 
     # do it again in one minute
     print("Sleeping for 60 seconds...")
