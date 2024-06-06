@@ -51,37 +51,67 @@ buf8 = load("graphics/8")
 buf9 = load("graphics/9")
 
 # function we can call on to display
-def display_reading(temp:int) -> None:
+def display_reading(temp:str) -> None:
 
-    # load in the bufs
-    to_display:list[framebuf.FrameBuffer] = []
-    for c in str(temp):
+    # settings - period width and height (radius)
+    period_radius_x:int = 3
+    period_radius_y:int = 3
+
+    # calculate total width
+    width:int = 0
+    for c in temp:
+
+        # add raw width
+        if c in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+            width = width + 32
+        elif c == ".":
+            width = width + period_radius_x + period_radius_x # radius x twice because the DIAMETER is the width (twice radius)
+        else:
+            raise Exception("Unable to display reading with character '" + c + "'")
+        
+        # add buffer
+        width = width + 0 # 0 buffer for now
+
+    # now that we have the width of the entire structure, position begin x accordingly
+    on_x:int = int(round((128 - width) / 2, 0))
+
+    # display each
+    for c in temp:
         if c == "0":
-            to_display.append(buf0)
+            oled.blit(buf0, on_x, 16)
+            on_x = on_x + 32
         elif c == "1":
-            to_display.append(buf1)
+            oled.blit(buf1, on_x, 16)
+            on_x = on_x + 32
         elif c == "2":
-            to_display.append(buf2)
+            oled.blit(buf2, on_x, 16)
+            on_x = on_x + 32
         elif c == "3":
-            to_display.append(buf3)
+            oled.blit(buf3, on_x, 16)
+            on_x = on_x + 32
         elif c == "4":
-            to_display.append(buf4)
+            oled.blit(buf4, on_x, 16)
+            on_x = on_x + 32
         elif c == "5":
-            to_display.append(buf5)
+            oled.blit(buf5, on_x, 16)
+            on_x = on_x + 32
         elif c == "6":
-            to_display.append(buf6)
+            oled.blit(buf6, on_x, 16)
+            on_x = on_x + 32
         elif c == "7":
-            to_display.append(buf7)
+            oled.blit(buf7, on_x, 16)
+            on_x = on_x + 32
         elif c == "8":
-            to_display.append(buf8)
+            oled.blit(buf8, on_x, 16)
+            on_x = on_x + 32
         elif c == "9":
-            to_display.append(buf9)
+            oled.blit(buf9, on_x, 16)
+            on_x = on_x + 32
+        elif c == ".":
+            oled.ellipse(on_x + period_radius_x, 16 + 32 - period_radius_y - period_radius_y, period_radius_x, period_radius_y, 1, True)
+            on_x = on_x + 6
 
-    # display
-    on_x = int(round((128 - (len(to_display) * 32)) / 2, 0))
-    for fb in to_display:
-        oled.blit(fb, on_x, 16)
-        on_x = on_x + 32
+    # show!
     oled.show()
 
 ## function for bottom loading bar
