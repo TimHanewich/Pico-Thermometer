@@ -88,7 +88,7 @@ def loading_bar(percent:float, height:int = 3) -> None:
     oled.rect(0, 64-height, rwidth, height, 1, True) # display as filled in rectangle at bottom
     oled.show()
 
-# loop
+# infinite reading loop
 def loop():
     print("Beginning thermometer loop!")
     while True:
