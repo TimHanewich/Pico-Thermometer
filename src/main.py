@@ -175,3 +175,5 @@ def loop():
             duration_percent:float = elapsed_ms / wait_ms
             loading_bar(duration_percent)
             time.sleep(0.1)
+
+loop()
