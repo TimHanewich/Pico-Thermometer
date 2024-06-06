@@ -13,18 +13,24 @@ i2c_sda = 14
 i2c_scl = 15
 
 # create I2C interface
+print("Creating I2C interface...")
 i2c = machine.I2C(i2c_peripheral, sda=machine.Pin(i2c_sda), scl=machine.Pin(i2c_scl))
 if 60 not in i2c.scan():
     print("SSD-1306 OLED display not detected on I2C! Program cancelling.")
     sys.exit()
+else:
+    print("SSD-1306 I2C presence confirmed!")
 
 # set up DHT-22 sensor
+print("Setting up DHT22 sensor...")
 dht22 = dht.DHT22(machine.Pin(gpio_dht22, machine.Pin.IN))
     
 # create display
+print("Setting up BitGraphicDisplay...")
 bgd = bitgraphics.BitGraphicDisplay(i2c, 128, 64) # create BitGraphicDisplay with width 128, height 64
 
 # create typewriter and load in 32x32 graphics
+print("Setting up Typewriter...")
 tr = bitgraphics.Typewriter()
 tr.add_character("0", bitgraphics.BitGraphic(path="graphics/0.json"))
 tr.add_character("1", bitgraphics.BitGraphic(path="graphics/1.json"))
@@ -38,6 +44,8 @@ tr.add_character("8", bitgraphics.BitGraphic(path="graphics/8.json"))
 tr.add_character("9", bitgraphics.BitGraphic(path="graphics/9.json"))
 tr.add_character("d", bitgraphics.BitGraphic(path="graphics/degree_fahrenheit.json"))
 
+# loop
+print("Beginning thermometer loop!")
 while True:
 
     # measure temperature
@@ -60,7 +68,7 @@ while True:
     bg = tr.write(str(temperature_f) + "d", 32, 32)
     bgd.clear()
     bgd.display(bg, center=(0.5, 0.5))
-    bg.show()
+    bgd.show()
 
     # do it again in one minute
     print("Sleeping for 60 seconds...")
