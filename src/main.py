@@ -51,7 +51,7 @@ buf8 = load("graphics/8")
 buf9 = load("graphics/9")
 
 # function we can call on to display
-def display_reading(temp:str) -> None:
+def display_reading(temp:float) -> None:
 
     # configurable settings
     period_radius_x:int = 3 # period X radius (width radius)
@@ -60,7 +60,7 @@ def display_reading(temp:str) -> None:
 
     # calculate total width
     width:int = 0
-    for c in temp:
+    for c in str(temp):
 
         # add raw width
         if c in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
@@ -78,7 +78,7 @@ def display_reading(temp:str) -> None:
 
     # display each, taking note of the location of a period
     period_location:tuple[int, int] = None
-    for c in temp:
+    for c in str(temp):
         if c == "0":
             oled.blit(buf0, on_x, 16)
             on_x = on_x + 32
