@@ -139,13 +139,13 @@ def loop():
         # measure temperature
         print("Reading temperature from DHT-22...")
         dht22_attempts:int = 0
-        temperature_f:int = None
+        temperature_f:float = None
         while temperature_f == None:
             try:
                 print("Measuring from DHT-22 on attempt # " + str(dht22_attempts + 1) + "...")
                 dht22.measure()
                 temperature_c = dht22.temperature()
-                temperature_f = int(round((temperature_c * (9/5)) + 32, 0))
+                temperature_f = round((temperature_c * (9/5)) + 32, 1)
             except Exception as e:
                 print("Reading attempt failed! Exception msg: " + str(e))
             dht22_attempts = dht22_attempts + 1
