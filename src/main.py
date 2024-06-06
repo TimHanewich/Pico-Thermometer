@@ -64,7 +64,7 @@ def display_reading(temp:float) -> None:
     # configurable settings
     period_radius_x:int = 3 # period X radius (width radius)
     period_radius_y:int = 3 # period Y radius (height radius)
-    char_buffer:int = 0
+    char_buffer:int = 0 # buffer in between characters (0 default)
 
     # calculate total width
     width:int = 0
