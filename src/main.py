@@ -5,6 +5,9 @@ import dht
 import framebuf
 import ssd1306
 
+# SETTINGS - sample rate
+sample_rate_seconds:int = 60
+
 # SETTINGS - data pin for the DHT-22 sensor
 gpio_dht22 = 6
 
@@ -117,9 +120,10 @@ def loop():
 
         # do it again in one minute
         print("Sleeping for 60 seconds...")
+        wait_ms:int = sample_rate_seconds * 1000
         start_sleep_ticks_ms = time.ticks_ms()
-        while (time.ticks_ms() - start_sleep_ticks_ms) < 60000:
+        while (time.ticks_ms() - start_sleep_ticks_ms) < wait_ms:
             elapsed_ms:int = time.ticks_ms() - start_sleep_ticks_ms
-            duration_percent:float = elapsed_ms / 60000
+            duration_percent:float = elapsed_ms / wait_ms
             loading_bar(duration_percent)
             time.sleep(0.1)
