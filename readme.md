@@ -1,7 +1,7 @@
 # Pico Thermometer
 A simple and fun Raspberry Pi project! Turn an inexpensive [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/), a [DHT-22 sensor](https://www.adafruit.com/product/385), an [SSD-1306 OLED display](https://www.adafruit.com/product/326), and [a few 3D-printed parts](https://www.thingiverse.com/thing:6691193) into a temperature monitor for any room in your home!
 
-![img2](https://i.imgur.com/2bRZB2c.png)
+![img2](https://i.imgur.com/fLneAjs.png)
 
 ## How to Setup
 1. 3D-print the STL files found [here on Thingiverse](https://www.thingiverse.com/thing:6691193).
