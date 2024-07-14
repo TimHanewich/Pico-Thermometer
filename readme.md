@@ -13,3 +13,12 @@ A simple and fun Raspberry Pi project! Turn an inexpensive [Raspberry Pi Pico](h
 6. Mount to a wall with some simple double sided tape, and plug it in!
 
 After deploying, you will see the Pico poll the ambient temperature and update the display once per minute. There is a "loading bar" at the bottom of the display that slowly grows to the full width of the display, indicating how long it is to its next read and print cycle.
+
+## Image Gallery
+![Cover](https://i.imgur.com/0bu5Jq6.jpeg)
+
+![cover](https://i.imgur.com/fR1BD5F.jpeg)
+
+![wired](https://i.imgur.com/DYd0QDj.jpeg)
+
+![in box](https://i.imgur.com/8QaKE0T.jpeg)
